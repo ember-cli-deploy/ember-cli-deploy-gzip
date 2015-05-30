@@ -1,10 +1,12 @@
 'use strict';
 
 var Promise = require('ember-cli/lib/ext/promise');
-
 var assert  = require('ember-cli/tests/helpers/assert');
+var fs  = require('fs');
+var path  = require('path');
+var rimraf  = Promise.denodeify(require('rimraf'));
 
-describe('redis plugin', function() {
+describe('gzip plugin', function() {
   var subject;
 
   before(function() {
@@ -25,7 +27,7 @@ describe('redis plugin', function() {
     });
 
     assert.equal(typeof result.willDeploy, 'function');
-    assert.equal(typeof result.upload, 'function');
+    assert.equal(typeof result.willUpload, 'function');
   });
 
   describe('willDeploy hook', function() {
@@ -50,45 +52,50 @@ describe('redis plugin', function() {
     });
   });
 
-  describe('upload hook', function() {
+  describe('willUpload hook', function() {
     var plugin;
     var context;
 
     beforeEach(function() {
       plugin = subject.createDeployPlugin({
-        name: 'redis'
+        name: 'gzip'
       });
 
       context = {
-        redisClient: {
-          upload: function() {
-            return Promise.resolve('redis-key');
-          }
-        },
-        tag: 'some-tag',
+        distDir: 'tmp/test-dist',
+        distFiles: [
+          'assets/foo.js',
+          'assets/bar.notjs',
+        ],
         deployment: {
           ui: { write: function() {} },
           project: { name: function() { return 'test-project'; } },
           config: {
-            redis: {
-              filePattern: 'tests/index.html',
+            gzip: {
+              filePattern: '**/*.js'
             }
           }
         }
       };
+      if (!fs.existsSync('tmp')) { fs.mkdirSync('tmp'); }
+      if (!fs.existsSync(context.distDir)) { fs.mkdirSync(context.distDir); }
+      if (!fs.existsSync(path.join(context.distDir, 'assets'))) { fs.mkdirSync(path.join(context.distDir, 'assets')); }
+      fs.writeFileSync(path.join(context.distDir, context.distFiles[0]), 'alert("Hello foo world!");', 'utf8');
+      fs.writeFileSync(path.join(context.distDir, context.distFiles[1]), 'alert("Hello bar world!");', 'utf8');
     });
 
-    it('uploads the index to redis', function() {
-      return assert.isFulfilled(plugin.upload.call(plugin, context))
-        .then(function(result) {
-          assert.deepEqual(result, { redisKey: 'redis-key' });
-        });
+    afterEach(function(){
+      return rimraf(context.distDir);
     });
 
-    it('returns the uploaded key', function() {
-      return assert.isFulfilled(plugin.upload.call(plugin, context))
+    it('gzips the matching files', function(done) {
+      return assert.isFulfilled(plugin.willUpload.call(plugin, context))
         .then(function(result) {
-          assert.deepEqual(result.redisKey, 'redis-key');
+          assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });
+          done();
+        }).catch(function(reason){
+          console.log(reason.actual.stack);
+          done(reason);
         });
     });
   });

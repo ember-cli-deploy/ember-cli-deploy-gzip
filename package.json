@@ -35,7 +35,8 @@
     "ember-export-application-global": "^1.0.2",
     "ember-try": "0.0.4",
     "glob": "^5.0.5",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "rimraf": "^2.3.4"
   },
   "keywords": [
     "ember-addon",

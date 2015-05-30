@@ -34,15 +34,14 @@ describe('validate-config', function() {
             return previous;
           }, []);
 
-          assert.equal(messages.length, 3);
+          assert.equal(messages.length, 1);
         });
     });
 
     it('adds default config to the config object', function() {
       return assert.isFulfilled(subject(mockUi, config))
         .then(function() {
-          assert.isDefined(config.host);
-          assert.isDefined(config.port);
+          assert.isDefined(config.filePattern);
         });
     });
 

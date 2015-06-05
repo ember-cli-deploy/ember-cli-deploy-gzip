@@ -33,7 +33,10 @@ module.exports = {
         inp.on('error', function(err){
           reject(err);
         });
-        inp.on('end', function(){
+        out.on('error', function(err){
+          reject(err);
+        });
+        out.on('finish', function(){
           resolve();
         });
       }).then(function(){

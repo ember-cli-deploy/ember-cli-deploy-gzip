@@ -22,7 +22,7 @@ module.exports = {
     var zlib = require('zlib');
     var fs = require('fs');
 
-    function _gzipFileInPlace(distDir, filePath) {
+    function _gzipFileInPlace(ui, distDir, filePath) {
       var fullPath = path.join(distDir, filePath);
       return new Promise(function(resolve, reject) {
         var gzip = zlib.createGzip();
@@ -42,27 +42,27 @@ module.exports = {
       }).then(function(){
         return renameFile(fullPath + '.gz', fullPath);
       }).then(function(){
+        ui.write(blue('|      '));
+        ui.write(blue('- ✔  ' + filePath + '\n'));
         return filePath;
       });
     }
 
-    function _gzipFiles(distDir, distFiles, filePattern) {
+    function _gzipFiles(distDir, distFiles, filePattern, ui) {
       var filesToGzip = distFiles.filter(minimatch.filter(filePattern, { matchBase: true }));
-      return Promise.map(filesToGzip, _gzipFileInPlace.bind(this, distDir));
+      return Promise.map(filesToGzip, _gzipFileInPlace.bind(this, ui, distDir));
     }
 
     function _beginMessage(ui, indexPath) {
       ui.write(blue('|      '));
-      ui.write(blue('- GZipping `' + indexPath + '`\n'));
+      ui.write(blue('- gzipping `' + indexPath + '`\n'));
 
       return Promise.resolve();
     }
 
-    function _successMessage(ui, key) {
+    function _successMessage(ui, count) {
       ui.write(blue('|      '));
-      ui.write(blue('- GZipped with key `' + key + '`\n'));
-
-      return Promise.resolve(key);
+      ui.write(blue('- gzipped ' + count + ' files ok\n'));
     }
 
     function _errorMessage(ui, error) {
@@ -97,9 +97,9 @@ module.exports = {
         var distFiles     = context.distFiles || [];
 
         return _beginMessage(ui, filePattern)
-          .then(_gzipFiles.bind(this, distDir, distFiles, filePattern))
-          .then(_successMessage.bind(this, ui))
+          .then(_gzipFiles.bind(this, distDir, distFiles, filePattern, ui))
           .then(function(gzippedFiles) {
+            _successMessage(ui, gzippedFiles.length);
             return { gzippedFiles: gzippedFiles };
           })
           .catch(_errorMessage.bind(this, ui));

@@ -33,16 +33,15 @@ describe('gzip plugin', function() {
   describe('willDeploy hook', function() {
     it('resolves if config is ok', function() {
       var plugin = subject.createDeployPlugin({
-        name: 'redis'
+        name: 'gzip'
       });
 
       var context = {
         deployment: {
           ui: { write: function() {}, writeLine: function() {} },
           config: {
-            redis: {
-              host: 'somehost',
-              port: 1234
+            gzip: {
+              filePattern: '**/*.js'
             }
           }
         }

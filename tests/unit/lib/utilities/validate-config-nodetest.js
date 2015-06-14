@@ -49,39 +49,4 @@ describe('validate-config', function() {
       return assert.isFulfilled(subject(mockUi, config));
     })
   });
-
-  describe('with a url provided', function () {
-    beforeEach(function() {
-      config = {
-        url: 'redis://localhost:6379'
-      };
-    });
-    it('only warns about missing optional filePattern', function() {
-      return assert.isFulfilled(subject(mockUi, config))
-        .then(function() {
-          var messages = mockUi.messages.reduce(function(previous, current) {
-            if (/- Missing config:\s.*, using default:\s/.test(current)) {
-              previous.push(current);
-            }
-
-            return previous;
-          }, []);
-
-          assert.equal(messages.length, 1);
-        });
-    });
-
-    it('does not add default config to the config object', function() {
-      return assert.isFulfilled(subject(mockUi, config))
-        .then(function() {
-          assert.isUndefined(config.host);
-          assert.isUndefined(config.port);
-          assert.isDefined(config.filePattern);
-        });
-    });
-
-    it('resolves', function() {
-      return assert.isFulfilled(subject(mockUi, config));
-    })
-  });
 });

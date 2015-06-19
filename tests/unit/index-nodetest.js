@@ -26,11 +26,11 @@ describe('gzip plugin', function() {
       name: 'test-plugin'
     });
 
-    assert.equal(typeof result.willDeploy, 'function');
+    assert.equal(typeof result.configure, 'function');
     assert.equal(typeof result.willUpload, 'function');
   });
 
-  describe('willDeploy hook', function() {
+  describe('configure hook', function() {
     it('resolves if config is ok', function() {
       var plugin = subject.createDeployPlugin({
         name: 'gzip'
@@ -47,7 +47,7 @@ describe('gzip plugin', function() {
         }
       };
 
-      return assert.isFulfilled(plugin.willDeploy.call(plugin, context))
+      return assert.isFulfilled(plugin.configure.call(plugin, context))
     });
   });
 

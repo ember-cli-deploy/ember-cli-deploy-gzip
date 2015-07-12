@@ -7,10 +7,17 @@ var path  = require('path');
 var rimraf  = Promise.denodeify(require('rimraf'));
 
 describe('gzip plugin', function() {
-  var subject;
+  var subject, mockUi, config;
 
-  before(function() {
+  beforeEach(function() {
     subject = require('../../index');
+    mockUi = {
+      messages: [],
+      write: function() { },
+      writeLine: function(message) {
+        this.messages.push(message);
+      }
+    };
   });
 
   it('has a name', function() {
@@ -31,23 +38,68 @@ describe('gzip plugin', function() {
   });
 
   describe('configure hook', function() {
-    it('resolves if config is ok', function() {
-      var plugin = subject.createDeployPlugin({
-        name: 'gzip'
+    var plugin, context;
+    describe('without providing config', function () {
+      beforeEach(function() {
+        config = { };
+        plugin = subject.createDeployPlugin({
+          name: 'gzip'
+        });
+        context = {
+          ui: mockUi,
+          config: config
+        };
+        plugin.beforeHook(context);
+      });
+      it('warns about missing optional config', function() {
+        plugin.configure(context);
+        var messages = mockUi.messages.reduce(function(previous, current) {
+          if (/- Missing config:\s.*, using default:\s/.test(current)) {
+            previous.push(current);
+          }
+
+          return previous;
+        }, []);
+
+        assert.equal(messages.length, 3);
       });
 
-      var context = {
-        deployment: {
-          ui: { write: function() {}, writeLine: function() {} },
-          config: {
-            gzip: {
-              filePattern: '**/*.js'
-            }
+      it('adds default config to the config object', function() {
+        plugin.configure(context);
+        assert.isDefined(config.gzip.filePattern);
+        assert.isDefined(config.gzip.distDir);
+        assert.isDefined(config.gzip.distFiles);
+      });
+    });
+    describe('with a filePattern, distDir, and distFiles provided', function () {
+      beforeEach(function() {
+        config = {
+          gzip: {
+            filePattern: '**/*.*',
+            distDir: 'tmp/dist-deploy',
+            distFiles: []
           }
-        }
-      };
+        };
+        plugin = subject.createDeployPlugin({
+          name: 'gzip'
+        });
+        context = {
+          ui: mockUi,
+          config: config
+        };
+        plugin.beforeHook(context);
+      });
+      it('does not warn about missing optional config', function() {
+        plugin.configure(context);
+        var messages = mockUi.messages.reduce(function(previous, current) {
+          if (/- Missing config:\s.*, using default:\s/.test(current)) {
+            previous.push(current);
+          }
 
-      return assert.isFulfilled(plugin.configure.call(plugin, context))
+          return previous;
+        }, []);
+        assert.equal(messages.length, 0);
+      });
     });
   });
 
@@ -66,13 +118,13 @@ describe('gzip plugin', function() {
           'assets/foo.js',
           'assets/bar.notjs',
         ],
-        deployment: {
-          ui: { write: function() {} },
-          project: { name: function() { return 'test-project'; } },
-          config: {
-            gzip: {
-              filePattern: '**/*.js'
-            }
+        ui: mockUi,
+        project: { name: function() { return 'test-project'; } },
+        config: {
+          gzip: {
+            filePattern: '**/*.js',
+            distDir: function(context){ return context.distDir; },
+            distFiles: function(context){ return context.distFiles; }
           }
         }
       };
@@ -81,6 +133,7 @@ describe('gzip plugin', function() {
       if (!fs.existsSync(path.join(context.distDir, 'assets'))) { fs.mkdirSync(path.join(context.distDir, 'assets')); }
       fs.writeFileSync(path.join(context.distDir, context.distFiles[0]), 'alert("Hello foo world!");', 'utf8');
       fs.writeFileSync(path.join(context.distDir, context.distFiles[1]), 'alert("Hello bar world!");', 'utf8');
+      plugin.beforeHook(context);
     });
 
     afterEach(function(){
@@ -88,7 +141,7 @@ describe('gzip plugin', function() {
     });
 
     it('gzips the matching files', function(done) {
-      return assert.isFulfilled(plugin.willUpload.call(plugin, context))
+      return assert.isFulfilled(plugin.willUpload(context))
         .then(function(result) {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });
           done();

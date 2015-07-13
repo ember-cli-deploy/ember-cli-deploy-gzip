@@ -47,7 +47,6 @@ module.exports = {
       },
       _gzipFiles: function(distDir, distFiles, filePattern) {
         var filesToGzip = distFiles.filter(minimatch.filter(filePattern, { matchBase: true }));
-        debugger;
         return Promise.map(filesToGzip, this._gzipFileInPlace.bind(this, distDir));
       },
       _gzipFileInPlace: function(distDir, filePath) {

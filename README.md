@@ -36,6 +36,14 @@ The Array of built assets.
 
 _Default:_ the `distFiles` property of the deployment context
 
+### zopfli
+
+Use node-zopfli for compression (better than regular gzip
+compression, but slower). If you set this to `true`, you
+will need to `npm install node-zopfli --save-dev` in your app.
+
+_Default:_ false
+
 ## Prequisites
 
 The default configuration of this plugin expects the deployment context to have `distDir` and `distFiles` properties. These are conveniently created by the [ember-cli-deploy-build](https://github.com/zapnito/ember-cli-deploy-build) plugin so will work out of the box if you are using that plugin.

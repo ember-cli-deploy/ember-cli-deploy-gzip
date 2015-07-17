@@ -61,7 +61,7 @@ describe('gzip plugin', function() {
           return previous;
         }, []);
 
-        assert.equal(messages.length, 3);
+        assert.equal(messages.length, 4);
       });
 
       it('adds default config to the config object', function() {
@@ -69,13 +69,15 @@ describe('gzip plugin', function() {
         assert.isDefined(config.gzip.filePattern);
         assert.isDefined(config.gzip.distDir);
         assert.isDefined(config.gzip.distFiles);
+        assert.isDefined(config.gzip.zopfli);
       });
     });
-    describe('with a filePattern, distDir, and distFiles provided', function () {
+    describe('with a filePattern, zopfli, distDir, and distFiles provided', function () {
       beforeEach(function() {
         config = {
           gzip: {
             filePattern: '**/*.*',
+            zopfli: false,
             distDir: 'tmp/dist-deploy',
             distFiles: []
           }
@@ -87,6 +89,7 @@ describe('gzip plugin', function() {
           ui: mockUi,
           config: config
         };
+        debugger;
         plugin.beforeHook(context);
       });
       it('does not warn about missing optional config', function() {
@@ -98,6 +101,7 @@ describe('gzip plugin', function() {
 
           return previous;
         }, []);
+        console.log(messages);
         assert.equal(messages.length, 0);
       });
     });
@@ -134,6 +138,7 @@ describe('gzip plugin', function() {
       fs.writeFileSync(path.join(context.distDir, context.distFiles[0]), 'alert("Hello foo world!");', 'utf8');
       fs.writeFileSync(path.join(context.distDir, context.distFiles[1]), 'alert("Hello bar world!");', 'utf8');
       plugin.beforeHook(context);
+      plugin.gzipLibrary = require('zlib');
     });
 
     afterEach(function(){

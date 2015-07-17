@@ -15,18 +15,28 @@ module.exports = {
   name: 'ember-cli-deploy-gzip',
 
   createDeployPlugin: function(options) {
-    var zlib = require('zlib');
     var fs = require('fs');
 
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
       defaultConfig: {
         filePattern: '**/*.{js,css,png,gif,jpg,map,xml,txt,svg,eot,ttf,woff,woff2}',
+        zopfli: false,
         distDir: function(context){
           return context.distDir;
         },
         distFiles: function(context){
           return context.distFiles;
+        }
+      },
+
+      configure: function(context) {
+        this._super.configure.call(this, context);
+        if (this.readConfig('zopfli')) {
+          this.log("Using zopfli for compression")
+          this.gzipLibrary = this.project.require('node-zopfli');
+        } else {
+          this.gzipLibrary = require('zlib');
         }
       },
 
@@ -45,7 +55,7 @@ module.exports = {
           })
           .catch(this._errorMessage.bind(this));
       },
-      _gzipFiles: function(distDir, distFiles, filePattern) {
+      _gzipFiles: function(distDir, distFiles, filePattern, gzipLibrary) {
         var filesToGzip = distFiles.filter(minimatch.filter(filePattern, { matchBase: true }));
         return Promise.map(filesToGzip, this._gzipFileInPlace.bind(this, distDir));
       },
@@ -53,7 +63,7 @@ module.exports = {
         var self = this;
         var fullPath = path.join(distDir, filePath);
         return new Promise(function(resolve, reject) {
-          var gzip = zlib.createGzip();
+          var gzip = self.gzipLibrary.createGzip({ format: 'gzip' });
           var inp = fs.createReadStream(fullPath);
           var out = fs.createWriteStream(fullPath + '.gz');
 

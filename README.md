@@ -1,58 +1,99 @@
 # ember-cli-deploy-gzip
 
-NOTE: This plugin targets ember-cli-deploy 0.5.0 and later. 0.5.0 is in development at this time.
+> An ember-cli-deploy plugin to compress files in-place using gzip compression
 
-This ember-cli-deploy plugin compresses files in-place using gzip compression.
+<hr/>
+**WARNING: This plugin is only compatible with ember-cli-deploy versions >= 0.5.0**
+<hr/>
 
-This is helpful to prepare for upload to a asset host that expects files to be
-pre-compressed.
+This plugin compresses files in-place using gzip compression. This is helpful to prepare for upload to an asset host that expects files to be pre-compressed.
+
+## What is an ember-cli-deploy plugin?
+
+A plugin is an addon that can be executed as a part of the ember-cli-deploy pipeline. A plugin will implement one or more of the ember-cli-deploy's pipeline hooks.
+
+For more information on what plugins are and how they work, please refer to the [Plugin Documentation][1].
+
+## Quick Start
+
+To get up and running quickly, do the following:
+
+- Ensure [ember-cli-deploy-build][2] is installed and configured.
+
+- Install this plugin
+
+```bash
+$ ember install ember-cli-deploy-gzip
+```
+
+- Run the pipeline
+
+```bash
+$ ember deploy
+```
 
 ## Installation
 
-* `ember install ember-cli-deploy-gzip`
+Run the following command in your terminal:
+
+```bash
+ember install ember-cli-deploy-gzip
+```
 
 ## ember-cli-deploy Hooks Implemented
 
-* configure
-* willUpload
+For detailed information on what plugin hooks are and how they work, please refer to the [Plugin Documentation][1].
+
+- `configure`
+- `willUpload`
+
 
 ## Configuration Options
+
+For detailed information on how configuration of plugins works, please refer to the [Plugin Documentation][1].
 
 ### filePattern
 
 Files matching this pattern will be gzipped.
 
-_Default:_ "\*\*/\*.{js,css,png,gif,jpg,map,xml,txt,svg,eot,ttf,woff,woff2}"
+*Default:* `'\*\*/\*.{js,css,png,gif,jpg,map,xml,txt,svg,eot,ttf,woff,woff2}'`
 
 ### distDir
 
-Directory where assets have been written to
+The root directory where the files matching `filePattern` will be searched for. By default, this option will use the `distDir` property of the deployment context, provided by [ember-cli-deploy-build][2].
 
-_Default:_ the `distDir` property of the deployment context
+*Default:* `context.distDir`
 
 ### distFiles
 
-The Array of built assets.
+The list of built project files. This option should be relative to `distDir` and should include the files that match `filePattern`. By default, this option will use the `distFiles` property of the deployment context, provided by [ember-cli-deploy-build][2].
 
-_Default:_ the `distFiles` property of the deployment context
+*Default:* `context.distDir`
 
 ### zopfli
 
-Use node-zopfli for compression (better than regular gzip
-compression, but slower). If you set this to `true`, you
-will need to `npm install node-zopfli --save-dev` in your app.
+Use node-zopfli for compression (better than regular gzip compression, but slower).
 
-_Default:_ false
+If set to `true`, you will need to `npm install node-zopfli --save-dev` in your app.
+
+*Default:* `false`
 
 ## Prequisites
 
-The default configuration of this plugin expects the deployment context to have `distDir` and `distFiles` properties. These are conveniently created by the [ember-cli-deploy-build](https://github.com/zapnito/ember-cli-deploy-build) plugin so will work out of the box if you are using that plugin.
+The following properties are expected to be present on the deployment `context` object:
+
+- `distDir`      (provided by [ember-cli-deploy-build][2])
+- `distFiles`    (provided by [ember-cli-deploy-build][2])
 
 ## Plugins known to work well with this one
 
-[ember-cli-deploy-build](https://github.com/zapnito/ember-cli-deploy-build)
-[ember-cli-deploy-s3](https://github.com/zapnito/ember-cli-deploy-s3)
+[ember-cli-deploy-build][2]
+[ember-cli-deploy-s3][3]
 
 ## Running Tests
 
-* `npm test`
+- `npm test`
+
+[1]: http://ember-cli.github.io/ember-cli-deploy/plugins "Plugin Documentation"
+[2]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
+[3]: https://github.com/zapnito/ember-cli-deploy-s3 "ember-cli-deploy-s3"

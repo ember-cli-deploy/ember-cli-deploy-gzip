@@ -97,3 +97,8 @@ The following properties are expected to be present on the deployment `context` 
 [1]: http://ember-cli.github.io/ember-cli-deploy/plugins "Plugin Documentation"
 [2]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
 [3]: https://github.com/zapnito/ember-cli-deploy-s3 "ember-cli-deploy-s3"
+
+## TODO
+
+Some deployment flows require side-by-side deployment of compressed and uncompressed
+assets. A PR to add this option would be welcome.

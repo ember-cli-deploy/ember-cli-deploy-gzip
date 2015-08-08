@@ -89,7 +89,6 @@ describe('gzip plugin', function() {
           ui: mockUi,
           config: config
         };
-        debugger;
         plugin.beforeHook(context);
       });
       it('does not warn about missing optional config', function() {
@@ -101,7 +100,6 @@ describe('gzip plugin', function() {
 
           return previous;
         }, []);
-        console.log(messages);
         assert.equal(messages.length, 0);
       });
     });
@@ -151,7 +149,6 @@ describe('gzip plugin', function() {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });
           done();
         }).catch(function(reason){
-          console.log(reason.actual.stack);
           done(reason);
         });
     });

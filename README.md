@@ -56,7 +56,7 @@ For detailed information on how configuration of plugins works, please refer to 
 
 Files matching this pattern will be gzipped.
 
-*Default:* `'\*\*/\*.{js,css,png,gif,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2}'`
+*Default:* `'\*\*/\*.{js,css,png,gif,ico,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2}'`
 
 ### distDir
 

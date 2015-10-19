@@ -61,7 +61,7 @@ describe('gzip plugin', function() {
           return previous;
         }, []);
 
-        assert.equal(messages.length, 4);
+        assert.equal(messages.length, 5);
       });
 
       it('adds default config to the config object', function() {
@@ -78,6 +78,7 @@ describe('gzip plugin', function() {
           gzip: {
             filePattern: '**/*.*',
             zopfli: false,
+            keep: false,
             distDir: 'tmp/dist-deploy',
             distFiles: []
           }
@@ -147,6 +148,17 @@ describe('gzip plugin', function() {
       return assert.isFulfilled(plugin.willUpload(context))
         .then(function(result) {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });
+          done();
+        }).catch(function(reason){
+          done(reason);
+        });
+    });
+
+    it('gzips the matching files with .gz suffix when keep is enabled', function(done) {
+      context.config.gzip.keep = true;
+      return assert.isFulfilled(plugin.willUpload(context))
+        .then(function(result) {
+          assert.deepEqual(result, { gzippedFiles: ['assets/foo.js.gz'] });
           done();
         }).catch(function(reason){
           done(reason);

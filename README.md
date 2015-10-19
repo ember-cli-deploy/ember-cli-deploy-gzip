@@ -78,6 +78,12 @@ If set to `true`, you will need to `npm install node-zopfli --save-dev` in your 
 
 *Default:* `false`
 
+### keep
+
+Keep original file and write compressed data to `originalFile.gz`
+
+*Default:* `false`
+
 ## Prequisites
 
 The following properties are expected to be present on the deployment `context` object:
@@ -97,8 +103,3 @@ The following properties are expected to be present on the deployment `context` 
 [1]: http://ember-cli.github.io/ember-cli-deploy/plugins "Plugin Documentation"
 [2]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
 [3]: https://github.com/zapnito/ember-cli-deploy-s3 "ember-cli-deploy-s3"
-
-## TODO
-
-Some deployment flows require side-by-side deployment of compressed and uncompressed
-assets. A PR to add this option would be welcome.

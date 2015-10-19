@@ -22,7 +22,6 @@ module.exports = {
       defaultConfig: {
         filePattern: '**/*.{js,css,png,gif,ico,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2}',
         zopfli: false,
-        keep: false,
         distDir: function(context){
           return context.distDir;
         },
@@ -47,28 +46,26 @@ module.exports = {
         var filePattern  = this.readConfig('filePattern');
         var distDir      = this.readConfig('distDir');
         var distFiles    = this.readConfig('distFiles') || [];
-        var keep         = this.readConfig('keep');
 
         this.log('gzipping `' + filePattern + '`');
-        return this._gzipFiles(distDir, distFiles, filePattern, keep)
+        return this._gzipFiles(distDir, distFiles, filePattern)
           .then(function(gzippedFiles) {
             self.log('gzipped ' + gzippedFiles.length + ' files ok');
             return { gzippedFiles: gzippedFiles };
           })
           .catch(this._errorMessage.bind(this));
       },
-      _gzipFiles: function(distDir, distFiles, filePattern, keep) {
+      _gzipFiles: function(distDir, distFiles, filePattern, gzipLibrary) {
         var filesToGzip = distFiles.filter(minimatch.filter(filePattern, { matchBase: true }));
-        return Promise.map(filesToGzip, this._gzipFile.bind(this, distDir, keep));
+        return Promise.map(filesToGzip, this._gzipFileInPlace.bind(this, distDir));
       },
-      _gzipFile: function(distDir, keep, filePath) {
+      _gzipFileInPlace: function(distDir, filePath) {
         var self = this;
         var fullPath = path.join(distDir, filePath);
-        var outFilePath = fullPath + '.gz';
         return new Promise(function(resolve, reject) {
           var gzip = self.gzipLibrary.createGzip({ format: 'gzip' });
           var inp = fs.createReadStream(fullPath);
-          var out = fs.createWriteStream(outFilePath);
+          var out = fs.createWriteStream(fullPath + '.gz');
 
           inp.pipe(gzip).pipe(out);
           inp.on('error', function(err){
@@ -81,14 +78,10 @@ module.exports = {
             resolve();
           });
         }).then(function(){
-          if(!keep) {
-            outFilePath = fullPath;
-            return renameFile(fullPath + '.gz', fullPath);
-          }
+          return renameFile(fullPath + '.gz', fullPath);
         }).then(function(){
-          self.log('✔  ' + outFilePath);
-
-          return outFilePath;
+          self.log('✔  ' + filePath);
+          return filePath;
         });
       },
       _errorMessage: function(error) {

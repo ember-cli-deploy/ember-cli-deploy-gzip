@@ -34,7 +34,7 @@ module.exports = {
       configure: function(context) {
         this._super.configure.call(this, context);
         if (this.readConfig('zopfli')) {
-          this.log("Using zopfli for compression")
+          this.log("Using zopfli for compression", { verbose: true });
           this.gzipLibrary = this.project.require('node-zopfli');
         } else {
           this.gzipLibrary = require('zlib');
@@ -49,10 +49,10 @@ module.exports = {
         var distFiles    = this.readConfig('distFiles') || [];
         var keep         = this.readConfig('keep');
 
-        this.log('gzipping `' + filePattern + '`');
+        this.log('gzipping `' + filePattern + '`', { verbose: true });
         return this._gzipFiles(distDir, distFiles, filePattern, keep)
           .then(function(gzippedFiles) {
-            self.log('gzipped ' + gzippedFiles.length + ' files ok');
+            self.log('gzipped ' + gzippedFiles.length + ' files ok', { verbose: true });
             return { gzippedFiles: gzippedFiles };
           })
           .catch(this._errorMessage.bind(this));
@@ -89,7 +89,7 @@ module.exports = {
             return filePath + '.gz';
           }
         }).then(function(outFilePath){
-          self.log('✔  ' + outFilePath);
+          self.log('✔  ' + outFilePath, { verbose: true });
 
           return outFilePath;
         });

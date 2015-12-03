@@ -2,7 +2,7 @@
 
 > An ember-cli-deploy plugin to compress files in-place using gzip compression
 
-![](https://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/plugins/ember-cli-deploy-gzip.svg)
+[![](https://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/plugins/ember-cli-deploy-gzip.svg)](http://ember-cli-deploy.github.io/ember-cli-deploy-version-badges/)
 
 This plugin compresses files in-place using gzip compression. This is helpful to prepare for upload to an asset host that expects files to be pre-compressed.
 

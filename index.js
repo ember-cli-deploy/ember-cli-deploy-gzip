@@ -20,7 +20,7 @@ module.exports = {
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
       defaultConfig: {
-        filePattern: '**/*.{js,css,png,gif,ico,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2}',
+        filePattern: '**/*.{js,css,json,ico,map,xml,txt,svg,eot,ttf,woff,woff2}',
         zopfli: false,
         keep: false,
         distDir: function(context){

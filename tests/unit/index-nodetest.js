@@ -155,15 +155,30 @@ describe('gzip plugin', function() {
         });
     });
 
-    it('gzips the matching files with .gz suffix when keep is enabled', function(done) {
-      context.config.gzip.keep = true;
-      return assert.isFulfilled(plugin.willUpload(context))
-        .then(function(result) {
-          assert.deepEqual(result, { gzippedFiles: ['assets/foo.js.gz'] });
-          done();
-        }).catch(function(reason){
-          done(reason);
-        });
+    describe('when keep is enabled', function() {
+      beforeEach(function() {
+        context.config.gzip.keep = true;
+      });
+
+      it('gzips the matching files with .gz suffix', function(done) {
+        return assert.isFulfilled(plugin.willUpload(context))
+          .then(function(result) {
+            assert.deepEqual(result.gzippedFiles, ['assets/foo.js.gz']);
+            done();
+          }).catch(function(reason){
+            done(reason);
+          });
+      });
+
+      it('adds the gzipped files to the distFiles', function(done) {
+        return assert.isFulfilled(plugin.willUpload(context))
+          .then(function(result) {
+            assert.include(result.distFiles, 'assets/foo.js.gz');
+            done();
+          }).catch(function(reason){
+            done(reason);
+          });
+      });
     });
   });
 });

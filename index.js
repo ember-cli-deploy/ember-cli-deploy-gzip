@@ -53,6 +53,13 @@ module.exports = {
         return this._gzipFiles(distDir, distFiles, filePattern, keep)
           .then(function(gzippedFiles) {
             self.log('gzipped ' + gzippedFiles.length + ' files ok', { verbose: true });
+            if (keep) {
+              self.log('keep is enabled, added gzipped files to `context.distFiles`', { verbose: true });
+              return {
+                distFiles: gzippedFiles,
+                gzippedFiles: gzippedFiles
+              }
+            }
             return { gzippedFiles: gzippedFiles };
           })
           .catch(this._errorMessage.bind(this));

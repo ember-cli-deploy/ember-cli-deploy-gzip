@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.2.1](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.1) (2016-02-06)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.0...0.2.1)
+
+- Update ember-deploy-plugin version again
+
 ## [0.2.0](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.0) (2016-02-06)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.1.1...0.2.0)
 

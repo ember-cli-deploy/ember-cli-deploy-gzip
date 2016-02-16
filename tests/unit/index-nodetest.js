@@ -62,22 +62,24 @@ describe('gzip plugin', function() {
           return previous;
         }, []);
 
-        assert.equal(messages.length, 5);
+        assert.equal(messages.length, 6);
       });
 
       it('adds default config to the config object', function() {
         plugin.configure(context);
         assert.isDefined(config.gzip.filePattern);
+        assert.isDefined(config.gzip.ignorePattern);
         assert.isDefined(config.gzip.distDir);
         assert.isDefined(config.gzip.distFiles);
         assert.isDefined(config.gzip.zopfli);
       });
     });
-    describe('with a filePattern, zopfli, distDir, and distFiles provided', function () {
+    describe('with a filePattern, ignorePattern, zopfli, distDir, and distFiles provided', function () {
       beforeEach(function() {
         config = {
           gzip: {
             filePattern: '**/*.*',
+            ignorePattern: '**/specific.thing',
             zopfli: false,
             keep: false,
             distDir: 'tmp/dist-deploy',
@@ -121,12 +123,14 @@ describe('gzip plugin', function() {
         distFiles: [
           'assets/foo.js',
           'assets/bar.notjs',
+          'assets/ignore.js',
         ],
         ui: mockUi,
         project: { name: function() { return 'test-project'; } },
         config: {
           gzip: {
             filePattern: '**/*.js',
+            ignorePattern: '**/ignore.*',
             distDir: function(context){ return context.distDir; },
             distFiles: function(context){ return context.distFiles; }
           }
@@ -137,6 +141,7 @@ describe('gzip plugin', function() {
       if (!fs.existsSync(path.join(context.distDir, 'assets'))) { fs.mkdirSync(path.join(context.distDir, 'assets')); }
       fs.writeFileSync(path.join(context.distDir, context.distFiles[0]), 'alert("Hello foo world!");', 'utf8');
       fs.writeFileSync(path.join(context.distDir, context.distFiles[1]), 'alert("Hello bar world!");', 'utf8');
+      fs.writeFileSync(path.join(context.distDir, context.distFiles[2]), 'alert("Hello ignore world!");', 'utf8');
       plugin.beforeHook(context);
       plugin.gzipLibrary = require('zlib');
     });
@@ -145,7 +150,7 @@ describe('gzip plugin', function() {
       return rimraf(context.distDir);
     });
 
-    it('gzips the matching files', function(done) {
+    it('gzips the matching files which are not ignored', function(done) {
       return assert.isFulfilled(plugin.willUpload(context))
         .then(function(result) {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });

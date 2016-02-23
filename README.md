@@ -57,6 +57,12 @@ Note: image files such as `.png`, `.jpg` and `.gif` should not be gzipped, as th
 
 *Default:* `'\*\*/\*.{js,css,json,ico,map,xml,txt,svg,eot,ttf,woff,woff2}'`
 
+### ignorePattern
+
+Files matching this pattern will *not* be gzipped even if they match filePattern
+
+*Default:* null
+
 ### distDir
 
 The root directory where the files matching `filePattern` will be searched for. By default, this option will use the `distDir` property of the deployment context, provided by [ember-cli-deploy-build][2].

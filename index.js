@@ -21,6 +21,7 @@ module.exports = {
       name: options.name,
       defaultConfig: {
         filePattern: '**/*.{js,css,json,ico,map,xml,txt,svg,eot,ttf,woff,woff2}',
+        ignorePattern: null,
         zopfli: false,
         keep: false,
         distDir: function(context){
@@ -44,13 +45,15 @@ module.exports = {
       willUpload: function(context) {
         var self = this;
 
-        var filePattern  = this.readConfig('filePattern');
-        var distDir      = this.readConfig('distDir');
-        var distFiles    = this.readConfig('distFiles') || [];
-        var keep         = this.readConfig('keep');
+        var filePattern     = this.readConfig('filePattern');
+        var ignorePattern   = this.readConfig('ignorePattern');
+        var distDir         = this.readConfig('distDir');
+        var distFiles       = this.readConfig('distFiles') || [];
+        var keep            = this.readConfig('keep');
 
         this.log('gzipping `' + filePattern + '`', { verbose: true });
-        return this._gzipFiles(distDir, distFiles, filePattern, keep)
+        this.log('ignoring `' + ignorePattern + '`', { verbose: true });
+        return this._gzipFiles(distDir, distFiles, filePattern, ignorePattern, keep)
           .then(function(gzippedFiles) {
             self.log('gzipped ' + gzippedFiles.length + ' files ok', { verbose: true });
             if (keep) {
@@ -64,8 +67,13 @@ module.exports = {
           })
           .catch(this._errorMessage.bind(this));
       },
-      _gzipFiles: function(distDir, distFiles, filePattern, keep) {
+      _gzipFiles: function(distDir, distFiles, filePattern, ignorePattern, keep) {
         var filesToGzip = distFiles.filter(minimatch.filter(filePattern, { matchBase: true }));
+        if (ignorePattern != null) {
+            filesToGzip = filesToGzip.filter(function(path){
+              return !minimatch(path, ignorePattern, { matchBase: true });
+            });
+        }
         return Promise.map(filesToGzip, this._gzipFile.bind(this, distDir, keep));
       },
       _gzipFile: function(distDir, keep, filePath) {

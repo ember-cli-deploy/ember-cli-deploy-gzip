@@ -59,9 +59,9 @@ module.exports = {
             if (keep) {
               self.log('keep is enabled, added gzipped files to `context.distFiles`', { verbose: true });
               return {
-                distFiles: gzippedFiles,
+                distFiles: [].concat(gzippedFiles), // needs to be a copy
                 gzippedFiles: gzippedFiles
-              }
+              };
             }
             return { gzippedFiles: gzippedFiles };
           })

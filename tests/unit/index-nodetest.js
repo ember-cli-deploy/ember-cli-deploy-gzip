@@ -184,6 +184,16 @@ describe('gzip plugin', function() {
             done(reason);
           });
       });
+
+      it('does not use the same object for gzippedFiles and distFiles', function(done) {
+        return assert.isFulfilled(plugin.willUpload(context))
+          .then(function(result) {
+            assert.notStrictEqual(result.distFiles, result.gzippedFiles);
+            done();
+          }).catch(function(reason){
+            done(reason);
+          });
+      });
     });
   });
 });

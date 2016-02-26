@@ -1,12 +1,18 @@
-# Change Log
+# Changelog
 
-## [0.2.1](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.1) (2016-02-06)
-[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.0...0.2.1)
+## [0.2.2](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v0.2.2) (2016-02-26)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.1...v0.2.2)
+
+- Add ignorePattern option for removing specific files [#18](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/18) ([@jrjohnson](https://github.com/jrjohnson))
+- Fix the plugin return object for keep-enabled gzipping [#19](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/19) ([@dannyfallon/df](https://github.com/dannyfallon/df))
+
+## [0.2.1](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v0.2.1) (2016-02-06)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.0...v0.2.1)
 
 - Update ember-deploy-plugin version again
 
-## [0.2.0](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.0) (2016-02-06)
-[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.1.1...0.2.0)
+## [0.2.0](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v0.2.0) (2016-02-06)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.1.1...v0.2.0)
 
 - Add the gzipped file to the context's distFiles when keep is true [\#17](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/17) ([dannyfallon](https://github.com/dannyfallon))
 - Update ember-deploy-plugin version

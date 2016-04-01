@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.3](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.3) (2016-04-01)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.2...0.2.3)
+
+- Remove unused redis dependency [\#20](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/20) ([dannyfallon](https://github.com/dannyfallon))
+
 ## [0.2.2](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v0.2.2) (2016-02-26)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.1...v0.2.2)
 

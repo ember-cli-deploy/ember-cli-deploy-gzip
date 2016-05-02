@@ -105,6 +105,6 @@ The following properties are expected to be present on the deployment `context` 
 
 - `npm test`
 
-[1]: http://ember-cli.github.io/ember-cli-deploy/plugins "Plugin Documentation"
+[1]: http://ember-cli-deploy.github.io/ember-cli-deploy/plugins/ "Plugin Documentation"
 [2]: https://github.com/zapnito/ember-cli-deploy-build "ember-cli-deploy-build"
 [3]: https://github.com/zapnito/ember-cli-deploy-s3 "ember-cli-deploy-s3"

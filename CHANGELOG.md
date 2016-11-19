@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.4) (2016-11-19)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.3...0.2.4)
+
+- Update various dependencies and remove unused code. [\#24](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/24) ([lukemelia](https://github.com/lukemelia))
+- \[security\] Update minimatch to ^3.0.2 [\#22](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/22) ([knownasilya](https://github.com/knownasilya))
+- Update ember-cli docs link [\#21](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/21) ([wagenet](https://github.com/wagenet))
+
 ## [0.2.3](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/0.2.3) (2016-04-01)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v0.2.2...0.2.3)
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var Promise = require('ember-cli/lib/ext/promise');
-var assert  = require('ember-cli/tests/helpers/assert');
+var assert = require('../helpers/assert');
 var fs  = require('fs');
 var path  = require('path');
 var rimraf  = Promise.denodeify(require('rimraf'));
@@ -150,8 +150,8 @@ describe('gzip plugin', function() {
       return rimraf(context.distDir);
     });
 
-    it('gzips the matching files which are not ignored', function(done) {
-      return assert.isFulfilled(plugin.willUpload(context))
+    it('gzips the matching files which are not ignored', function() {
+      assert.isFulfilled(plugin.willUpload(context))
         .then(function(result) {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });
           done();
@@ -166,7 +166,7 @@ describe('gzip plugin', function() {
       });
 
       it('gzips the matching files with .gz suffix', function(done) {
-        return assert.isFulfilled(plugin.willUpload(context))
+        assert.isFulfilled(plugin.willUpload(context))
           .then(function(result) {
             assert.deepEqual(result.gzippedFiles, ['assets/foo.js.gz']);
             done();
@@ -176,7 +176,7 @@ describe('gzip plugin', function() {
       });
 
       it('adds the gzipped files to the distFiles', function(done) {
-        return assert.isFulfilled(plugin.willUpload(context))
+        assert.isFulfilled(plugin.willUpload(context))
           .then(function(result) {
             assert.include(result.distFiles, 'assets/foo.js.gz');
             done();
@@ -186,7 +186,7 @@ describe('gzip plugin', function() {
       });
 
       it('does not use the same object for gzippedFiles and distFiles', function(done) {
-        return assert.isFulfilled(plugin.willUpload(context))
+        assert.isFulfilled(plugin.willUpload(context))
           .then(function(result) {
             assert.notStrictEqual(result.distFiles, result.gzippedFiles);
             done();

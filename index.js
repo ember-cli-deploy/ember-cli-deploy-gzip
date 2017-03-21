@@ -1,7 +1,7 @@
-/* jshint node: true */
+/*eslint-env node*/
 'use strict';
 
-var Promise   = require('ember-cli/lib/ext/promise');
+var RSVP   = require('rsvp');
 var fs        = require('fs');
 var path      = require('path');
 var minimatch = require('minimatch');
@@ -42,7 +42,7 @@ module.exports = {
         }
       },
 
-      willUpload: function(context) {
+      willUpload: function(/* context */) {
         var self = this;
 
         var filePattern     = this.readConfig('filePattern');
@@ -74,13 +74,13 @@ module.exports = {
               return !minimatch(path, ignorePattern, { matchBase: true });
             });
         }
-        return Promise.map(filesToGzip, this._gzipFile.bind(this, distDir, keep));
+        return RSVP.map(filesToGzip, this._gzipFile.bind(this, distDir, keep));
       },
       _gzipFile: function(distDir, keep, filePath) {
         var self = this;
         var fullPath = path.join(distDir, filePath);
         var outFilePath = fullPath + '.gz';
-        return new Promise(function(resolve, reject) {
+        return new RSVP.Promise(function(resolve, reject) {
           var gzip = self.gzipLibrary.createGzip({ format: 'gzip' });
           var inp = fs.createReadStream(fullPath);
           var out = fs.createWriteStream(outFilePath);
@@ -111,7 +111,7 @@ module.exports = {
       },
       _errorMessage: function(error) {
         this.log(error, { color: 'red' });
-        return Promise.reject(error);
+        return RSVP.reject(error);
       }
     });
     return new DeployPlugin();

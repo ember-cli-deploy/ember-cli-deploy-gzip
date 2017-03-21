@@ -1,16 +1,17 @@
+/*eslint-env node*/
 'use strict';
 
-var Promise = require('ember-cli/lib/ext/promise');
-var assert = require('../helpers/assert');
+var RSVP = require('rsvp');
+var assert = require('./helpers/assert');
 var fs  = require('fs');
 var path  = require('path');
-var rimraf  = Promise.denodeify(require('rimraf'));
+var rimraf  = RSVP.denodeify(require('rimraf'));
 
 describe('gzip plugin', function() {
   var subject, mockUi, config;
 
   beforeEach(function() {
-    subject = require('../../index');
+    subject = require('../index');
     mockUi = {
       verbose: true,
       messages: [],

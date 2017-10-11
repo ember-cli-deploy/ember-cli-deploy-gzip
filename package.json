@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-deploy-gzip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ember CLI Deploy plugin to gzip files.",
   "directories": {
     "doc": "doc",

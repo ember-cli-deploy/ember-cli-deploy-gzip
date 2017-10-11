@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.0.1](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v1.0.1) (2017-10-11)
+[Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v1.0.0...v1.0.1)
+
+**Merged pull requests:**
+
+- Use RSVP over ember-cli/lib/ext/promise [\#27](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/27) ([chrisgame](https://github.com/chrisgame))
+
 ## [v1.0.0](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v1.0.0) (2017-03-25)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v1.0.0-beta.0...v1.0.0)
 

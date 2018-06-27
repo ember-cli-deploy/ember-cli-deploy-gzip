@@ -42,7 +42,7 @@ module.exports = {
         }
       },
 
-      willUpload: function(/* context */) {
+      didBuild: function(/* context */) {
         var self = this;
 
         var filePattern     = this.readConfig('filePattern');

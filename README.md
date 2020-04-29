@@ -55,7 +55,7 @@ For detailed information on how configuration of plugins works, please refer to 
 Files matching this pattern will be gzipped.
 Note: image files such as `.png`, `.jpg` and `.gif` should not be gzipped, as they already are compressed.
 
-*Default:* `'\*\*/\*.{js,css,json,ico,map,xml,txt,svg,eot,ttf,woff,woff2}'`
+*Default:* `'\*\*/\*.{js,css,json,ico,map,xml,txt,svg,eot,ttf}'`
 
 ### ignorePattern
 

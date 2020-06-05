@@ -151,7 +151,7 @@ describe('gzip plugin', function() {
       return rimraf(context.distDir);
     });
 
-    it('gzips the matching files which are not ignored', function() {
+    it('gzips the matching files which are not ignored', function(done) {
       assert.isFulfilled(plugin.willUpload(context))
         .then(function(result) {
           assert.deepEqual(result, { gzippedFiles: ['assets/foo.js'] });

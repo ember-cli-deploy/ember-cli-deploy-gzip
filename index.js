@@ -93,7 +93,15 @@ module.exports = {
             reject(err);
           });
           out.on('finish', function(){
-            resolve();
+            // set mtime of gz file to mtime of original
+            fs.stat(fullPath, function(err, stats) {
+              if (err) resolve(); // ignore errors
+              else {
+                fs.utimes(outFilePath, Date.now(), stats.mtime, function () {
+                  resolve();
+                });
+              }
+            });
           });
         }).then(function(){
           if(!keep) {

@@ -1,5 +1,22 @@
 # Change Log
 
+## 2.0.0 (2020-11-24)
+
+There are two changes that are potentially (though unlikely to be) BREAKING: woff and woff2 files are no longer compressed by default, and compressed file modification times now preserve the modification times of the original file
+
+#### :rocket: Enhancement
+* [#33](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/33) Keep modification time the same as the original file ([@avdv](https://github.com/avdv))
+* [#30](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/30) Skip compressing already compressed font files ([@jrjohnson](https://github.com/jrjohnson))
+
+#### :house: Internal
+* [#34](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/34) Update deps and add release-it ([@lukemelia](https://github.com/lukemelia))
+
+#### Committers: 4
+- Claudio Bley ([@avdv](https://github.com/avdv))
+- Jonathan Johnson ([@jrjohnson](https://github.com/jrjohnson))
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+- The Game ([@chrisgame](https://github.com/chrisgame))
+
 ## [v1.0.1](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/tree/v1.0.1) (2017-10-11)
 [Full Changelog](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/compare/v1.0.0...v1.0.1)
 

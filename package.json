@@ -43,6 +43,9 @@
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "release-it": {
     "plugins": {
       "release-it-lerna-changelog": {

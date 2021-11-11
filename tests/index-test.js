@@ -141,7 +141,7 @@ describe('gzip plugin', function() {
       if (!fs.existsSync(context.distDir)) { fs.mkdirSync(context.distDir); }
       if (!fs.existsSync(path.join(context.distDir, 'assets'))) { fs.mkdirSync(path.join(context.distDir, 'assets')); }
       fs.writeFileSync(path.join(context.distDir, context.distFiles[0]), 'alert("Hello foo world!");', 'utf8');
-      fs.utimesSync(path.join(context.distDir, context.distFiles[0]), Date.now(), new Date("2020-01-01T00:01:02Z"));
+      fs.utimesSync(path.join(context.distDir, context.distFiles[0]), new Date(), new Date("2020-01-01T00:01:02Z"));
       fs.writeFileSync(path.join(context.distDir, context.distFiles[1]), 'alert("Hello bar world!");', 'utf8');
       fs.writeFileSync(path.join(context.distDir, context.distFiles[2]), 'alert("Hello ignore world!");', 'utf8');
       plugin.beforeHook(context);
@@ -187,13 +187,27 @@ describe('gzip plugin', function() {
           });
       });
 
-      it('has the same timestamp as the original', function(done) {
+      it('has the same mtime timestamp as the original', function(done) {
         assert.isFulfilled(plugin.willUpload(context))
           .then(function(result) {
             var mtime_gz = fs.statSync(path.join(context.distDir, result.gzippedFiles[0])).mtime.valueOf();
             var mtime_orig = fs.statSync(path.join(context.distDir, context.distFiles[0])).mtime.valueOf();
 
             assert.strictEqual(mtime_gz, mtime_orig);
+
+            done();
+          }).catch(function(reason){
+            done(reason);
+          });
+      });
+
+      it('atime timestamp is slightly newer than the original', function(done) {
+        assert.isFulfilled(plugin.willUpload(context))
+          .then(function(result) {
+            var atime_gz = fs.statSync(path.join(context.distDir, result.gzippedFiles[0])).atime.valueOf();
+            var atime_orig = fs.statSync(path.join(context.distDir, context.distFiles[0])).atime.valueOf();
+
+            assert.ok(atime_gz - atime_orig < 1000);
 
             done();
           }).catch(function(reason){

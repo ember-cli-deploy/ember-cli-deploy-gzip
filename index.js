@@ -97,7 +97,7 @@ module.exports = {
             fs.stat(fullPath, function(err, stats) {
               if (err) resolve(); // ignore errors
               else {
-                fs.utimes(outFilePath, Date.now(), stats.mtime, function () {
+                fs.utimes(outFilePath, new Date(), stats.mtime, function () {
                   resolve();
                 });
               }

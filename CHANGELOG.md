@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.0.1 (2021-11-22)
+
+#### :bug: Bug Fix
+* [#53](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/53) Fix invalid atime being set ([@jrjohnson](https://github.com/jrjohnson))
+
+#### Committers: 1
+- Jonathan Johnson ([@jrjohnson](https://github.com/jrjohnson))
+
 ## 2.0.0 (2020-11-24)
 
 There are two changes that are potentially (though unlikely to be) BREAKING: woff and woff2 files are no longer compressed by default, and compressed file modification times now preserve the modification times of the original file

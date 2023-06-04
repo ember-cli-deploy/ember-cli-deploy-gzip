@@ -1,5 +1,15 @@
 # Change Log
 
+
+## 3.0.0 (2023-06-04)
+
+#### :boom: Breaking Change
+* [#66](https://github.com/ember-cli-deploy/ember-cli-deploy-gzip/pull/66) [BREAKING] Update dependencies and node version requirements ([@lukemelia](https://github.com/lukemelia))
+
+#### Committers: 2
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+- Luke Melia ([@lukemelia](https://github.com/lukemelia))
+
 ## 2.0.1 (2021-11-22)
 
 #### :bug: Bug Fix

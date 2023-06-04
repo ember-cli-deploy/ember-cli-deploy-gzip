@@ -12,16 +12,17 @@
   },
   "repository": "https://github.com/ember-cli-deploy/ember-cli-deploy-gzip",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "14.x || 16.x || 18.x || >= 20.x"
   },
   "author": "Luke Melia and ember-cli-deploy team",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "ember-cli": "^3.22.0",
-    "eslint": "^7.14.0",
-    "glob": "^7.1.6",
+    "ember-cli": "^3.28.6",
+    "eslint": "^8.42.0",
+    "eslint-plugin-node": "^11.1.0",
+    "glob": "^10.2.6",
     "mocha": "^8.2.1",
     "release-it": "14.11.8",
     "release-it-lerna-changelog": "^3.1.0",
@@ -32,10 +33,12 @@
     "ember-cli-deploy-plugin"
   ],
   "dependencies": {
+    "@babel/eslint-parser": "^7.21.8",
+    "@babel/preset-env": "^7.22.4",
     "chalk": "^4.1.0",
     "core-object": "^3.1.5",
-    "ember-cli-deploy-plugin": "^0.2.6",
-    "minimatch": "^3.0.4",
+    "ember-cli-deploy-plugin": "^0.2.9",
+    "minimatch": "^3.1.2",
     "rsvp": "^4.8.5"
   },
   "ember-addon": {
